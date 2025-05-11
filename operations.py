@@ -1,153 +1,89 @@
-import csv
-import os
+from typing import List, Optional
+from sqlmodel import Session, select
 from models import Progreso, CausaAbandono
 
-DB_PATH_PROGRESO = "database_progresos.csv"
-DB_PATH_ABANDONO = "database_abandonos.csv"
 
 
-def guardar_progreso(progreso: Progreso):
-    with open(DB_PATH_PROGRESO, mode="a", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow([
-            progreso.nombre,
-            progreso.sexo,
-            progreso.tiempo_entrenando,
-            progreso.objetivo,
-            progreso.peso,
-            progreso.altura,
-            progreso.indice_grasa,
-            progreso.edad,
-            progreso.activo  # Nuevo campo
-        ])
-    return progreso
+def guardar_progreso(db: Session, progreso_data: Progreso) -> Progreso:
+    db.add(progreso_data)
+    db.commit()
+    db.refresh(progreso_data)
+    return progreso_data
 
-def listar_progresos(incluir_inactivos=False):
-    progresos = []
-    if not os.path.exists(DB_PATH_PROGRESO):
-        return progresos
-    with open(DB_PATH_PROGRESO, mode="r") as file:
-        reader = csv.reader(file)
-        for fila in reader:
-            p = Progreso(
-                nombre=fila[0],
-                sexo=fila[1],
-                tiempo_entrenando=fila[2],
-                objetivo=fila[3],
-                peso=float(fila[4]),
-                altura=float(fila[5]),
-                indice_grasa=float(fila[6]),
-                edad=int(fila[7]),
-                activo=(fila[8].lower() == "true")  # Convertimos a bool
-            )
-            if incluir_inactivos or p.activo:
-                progresos.append(p)
-    return progresos
+def listar_progresos(db: Session, incluir_inactivos: bool = False) -> List[Progreso]:
+    if incluir_inactivos:
+        statement = select(Progreso)
+    else:
+        statement = select(Progreso).where(Progreso.activo == True)
+    return db.exec(statement).all()
 
-def obtener_progreso(nombre: str):
-    for prog in listar_progresos():
-        if prog.nombre.lower() == nombre.lower():
-            return prog
-    return None
+def obtener_progreso(db: Session, nombre: str) -> Optional[Progreso]:
+    statement = select(Progreso).where(Progreso.nombre.ilike(nombre))
+    return db.exec(statement).first()
 
-def actualizar_progreso(nombre: str, nuevo: Progreso):
-    progresos = listar_progresos()
-    actualizado = False
-    with open(DB_PATH_PROGRESO, mode="w", newline="") as file:
-        writer = csv.writer(file)
-        for prog in progresos:
-            if prog.nombre.lower() == nombre.lower():
-                prog = nuevo
-                actualizado = True
-            writer.writerow(prog.dict().values())
-    if actualizado:
-        return nuevo
+def actualizar_progreso(db: Session, nombre: str, nuevo_progreso_data: Progreso) -> Progreso | dict:
+    db_progreso = obtener_progreso(db, nombre)
+    if db_progreso:
+        db_progreso.sqlmodel_update(nuevo_progreso_data.dict(exclude_unset=True))
+        db.add(db_progreso)
+        db.commit()
+        db.refresh(db_progreso)
+        return db_progreso
     return {"error": "Progreso no encontrado"}
 
-def eliminar_progreso(nombre: str):
-    progresos = listar_progresos(incluir_inactivos=True)
-    actualizado = False
-    with open(DB_PATH_PROGRESO, mode="w", newline="") as file:
-        writer = csv.writer(file)
-        for prog in progresos:
-            if prog.nombre.lower() == nombre.lower():
-                prog.activo = False
-                actualizado = True
-            writer.writerow(prog.dict().values())
-    if actualizado:
+def eliminar_progreso(db: Session, nombre: str) -> dict:
+    db_progreso = obtener_progreso(db, nombre)
+    if db_progreso:
+        db_progreso.activo = False
+        db.add(db_progreso)
+        db.commit()
+        db.refresh(db_progreso)
         return {"mensaje": "Progreso marcado como eliminado"}
     return {"error": "Progreso no encontrado"}
 
+def listar_progresos_historial(db: Session) -> List[Progreso]:
+    return listar_progresos(db, incluir_inactivos=True)
 
-def guardar_abandono(causa: CausaAbandono):
-    with open(DB_PATH_ABANDONO, mode="a", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow([
-            causa.nombre,
-            causa.motivo,
-            causa.fecha,
-            causa.detalle,
-            causa.activo  # Nuevo campo
-        ])
-    return causa
+def guardar_abandono(db: Session, causa_data: CausaAbandono) -> CausaAbandono:
+    db.add(causa_data)
+    db.commit()
+    db.refresh(causa_data)
+    return causa_data
 
-def listar_abandonos(incluir_inactivos=False):
-    abandonos = []
-    if not os.path.exists(DB_PATH_ABANDONO):
-        return abandonos
-    with open(DB_PATH_ABANDONO, mode="r") as file:
-        reader = csv.reader(file)
-        for fila in reader:
-            a = CausaAbandono(
-                nombre=fila[0],
-                motivo=fila[1],
-                fecha=fila[2],
-                detalle=fila[3],
-                activo=(fila[4].lower() == "true")
-            )
-            if incluir_inactivos or a.activo:
-                abandonos.append(a)
-    return abandonos
+def listar_abandonos(db: Session, incluir_inactivos: bool = False) -> List[CausaAbandono]:
+    if incluir_inactivos:
+        statement = select(CausaAbandono)
+    else:
+        statement = select(CausaAbandono).where(CausaAbandono.activo == True)
+    return db.exec(statement).all()
 
-def obtener_abandono(nombre: str):
-    for causa in listar_abandonos():
-        if causa.nombre.lower() == nombre.lower():
-            return causa
-    return None
+def obtener_abandono(db: Session, nombre: str) -> Optional[CausaAbandono]:
+    statement = select(CausaAbandono).where(CausaAbandono.nombre.ilike(nombre))
+    return db.exec(statement).first()
 
-def obtener_abandono_por_motivo(motivo: str):
-    return [c for c in listar_abandonos() if motivo.lower() in c.motivo.lower()]
+def obtener_abandono_por_motivo(db: Session, motivo: str) -> List[CausaAbandono]:
+    statement = select(CausaAbandono).where(CausaAbandono.motivo.ilike(f"%{motivo}%"))
+    return db.exec(statement).all()
 
-def actualizar_abandono(nombre: str, nueva: CausaAbandono):
-    abandonos = listar_abandonos()
-    actualizado = False
-    with open(DB_PATH_ABANDONO, mode="w", newline="") as file:
-        writer = csv.writer(file)
-        for causa in abandonos:
-            if causa.nombre.lower() == nombre.lower():
-                causa = nueva
-                actualizado = True
-            writer.writerow(causa.dict().values())
-    if actualizado:
-        return nueva
+def actualizar_abandono(db: Session, nombre: str, nueva_causa_data: CausaAbandono) -> CausaAbandono | dict:
+    db_causa = obtener_abandono(db, nombre)
+    if db_causa:
+        db_causa.sqlmodel_update(nueva_causa_data.dict(exclude_unset=True))
+        db.add(db_causa)
+        db.commit()
+        db.refresh(db_causa)
+        return db_causa
     return {"error": "Causa de abandono no encontrada"}
 
-def eliminar_abandono(nombre: str):
-    abandonos = listar_abandonos(incluir_inactivos=True)
-    actualizado = False
-    with open(DB_PATH_ABANDONO, mode="w", newline="") as file:
-        writer = csv.writer(file)
-        for causa in abandonos:
-            if causa.nombre.lower() == nombre.lower():
-                causa.activo = False
-                actualizado = True
-            writer.writerow(causa.dict().values())
-    if actualizado:
+def eliminar_abandono(db: Session, nombre: str) -> dict:
+    db_causa = obtener_abandono(db, nombre)
+    if db_causa:
+        db_causa.activo = False
+        db.add(db_causa)
+        db.commit()
+        db.refresh(db_causa)
         return {"mensaje": "Causa de abandono marcada como eliminada"}
     return {"error": "Causa de abandono no encontrada"}
 
-def listar_progresos_historial():
-    return listar_progresos(incluir_inactivos=True)
-
-def listar_abandonos_historial():
-    return listar_abandonos(incluir_inactivos=True)
+def listar_abandonos_historial(db: Session) -> List[CausaAbandono]:
+    return listar_abandonos(db, incluir_inactivos=True)
