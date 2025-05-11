@@ -1,7 +1,9 @@
-from pydantic import BaseModel
+from typing import Optional
+from sqlmodel import Field, SQLModel
 
-class Progreso(BaseModel):
-    nombre: str
+class Progreso(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    nombre: str = Field(index=True, unique=True)
     sexo: str
     tiempo_entrenando: str
     objetivo: str
@@ -9,11 +11,12 @@ class Progreso(BaseModel):
     altura: float
     indice_grasa: float
     edad: int
-    activo: bool = True
+    activo: bool = Field(default=True)
 
-class CausaAbandono(BaseModel):
-    nombre: str
+class CausaAbandono(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    nombre: str = Field(index=True, unique=True)
     motivo: str
     fecha: str
     detalle: str
-    activo: bool = True
+    activo: bool = Field(default=True)
