@@ -1,0 +1,153 @@
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from fastapi import FastAPI, HTTPException\r\nfrom models import Progreso, CausaAbandono\r\nfrom operations import (\r\n    guardar_progreso,\r\n    listar_progresos,\r\n    obtener_progreso,\r\n    actualizar_progreso,\r\n    eliminar_progreso,\r\n    guardar_abandono,\r\n    listar_abandonos,\r\n    obtener_abandono,\r\n    actualizar_abandono,\r\n    eliminar_abandono,\r\n    obtener_abandono_por_motivo, listar_progresos_historial, listar_abandonos_historial\r\n)\r\n\r\napp = FastAPI()\r\n@app.get(\"/progreso/eliminados\", response_model=list[Progreso])\r\ndef leer_progresos_eliminados():\r\n    return [p for p in listar_progresos(incluir_inactivos=True) if not p.activo]\r\n\r\n@app.get(\"/progreso/historial\", response_model=list[Progreso])\r\ndef historial_progreso_total():\r\n    return listar_progresos(incluir_inactivos=True)\r\n@app.post(\"/progreso/\", response_model=Progreso)\r\ndef crear_progreso(p: Progreso):\r\n    return guardar_progreso(p)\r\n\r\n@app.get(\"/progreso/\", response_model=list[Progreso])\r\ndef leer_progresos():\r\n    return listar_progresos()\r\n\r\n@app.get(\"/progreso/{nombre}\", response_model=Progreso)\r\ndef leer_progreso(nombre: str):\r\n    for prog in listar_progresos_historial():\r\n        if prog.nombre.lower() == nombre.lower():\r\n            return prog\r\n    raise HTTPException(status_code=404, detail=\"Progreso no encontrado\")\r\n\r\n@app.put(\"/progreso/{nombre}\", response_model=Progreso)\r\ndef actualizar(nombre: str, nuevo: Progreso):\r\n    res = actualizar_progreso(nombre, nuevo)\r\n    if \"error\" in res:\r\n        raise HTTPException(status_code=404, detail=res[\"error\"])\r\n    return res\r\n\r\n@app.delete(\"/progreso/{nombre}\")\r\ndef eliminar(nombre: str):\r\n    res = eliminar_progreso(nombre)\r\n    if \"error\" in res:\r\n        raise HTTPException(status_code=404, detail=res[\"error\"])\r\n    return res\r\n\r\n@app.get(\"/abandono/historial\", response_model=list[CausaAbandono])\r\ndef historial_abandono_total():\r\n    return listar_abandonos(incluir_inactivos=True)\r\n@app.post(\"/abandono/\", response_model=CausaAbandono)\r\ndef crear_abandono(c: CausaAbandono):\r\n    return guardar_abandono(c)\r\n\r\n@app.get(\"/abandono/\", response_model=list[CausaAbandono])\r\ndef leer_abandonos():\r\n    return listar_abandonos()\r\n\r\n@app.get(\"/abandono/motivo/{motivo}\", response_model=list[CausaAbandono])\r\ndef buscar_por_motivo(motivo: str):\r\n    return obtener_abandono_por_motivo(motivo)\r\n\r\n@app.get(\"/abandono/{nombre}\", response_model=CausaAbandono)\r\ndef leer_abandono(nombre: str):\r\n    for causa in listar_abandonos_historial():\r\n        if causa.nombre.lower() == nombre.lower():\r\n            return causa\r\n    raise HTTPException(status_code=404, detail=\"Causa no encontrada\")\r\n\r\n@app.put(\"/abandono/{nombre}\", response_model=CausaAbandono)\r\ndef actualizar_abandono(nombre: str, nueva: CausaAbandono):\r\n    res = actualizar_abandono(nombre, nueva)\r\n    if \"error\" in res:\r\n        raise HTTPException(status_code=404, detail=res[\"error\"])\r\n    return res\r\n\r\n@app.delete(\"/abandono/{nombre}\")\r\ndef eliminar_causa_abandono(nombre: str):\r\n    res = eliminar_abandono(nombre)\r\n    if \"error\" in res:\r\n        raise HTTPException(status_code=404, detail=res[\"error\"])\r\n    return res\r\n\r\n@app.get(\"/abandono/eliminados\", response_model=list[CausaAbandono])\r\ndef leer_abandonos_eliminados():\r\n    return [c for c in listar_abandonos(incluir_inactivos=True) if not c.activo]\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+--- a/main.py	(revision befbf4ba8b2ad86d4ffb67923723351ee4427a31)
++++ b/main.py	(date 1747003751414)
+@@ -1,4 +1,6 @@
+-from fastapi import FastAPI, HTTPException
++from fastapi import FastAPI, HTTPException, Depends
++from sqlmodel import Session
++from connection_db import create_db_and_tables, get_session
+ from models import Progreso, CausaAbandono
+ from operations import (
+     guardar_progreso,
+@@ -15,81 +17,88 @@
+ )
+ 
+ app = FastAPI()
++@app.on_event("startup")
++def on_startup():
++    create_db_and_tables()
++    print("Tablas de la base de datos creadas/verificadas con SQLModel.")
++
+ @app.get("/progreso/eliminados", response_model=list[Progreso])
+-def leer_progresos_eliminados():
+-    return [p for p in listar_progresos(incluir_inactivos=True) if not p.activo]
++def leer_progresos_eliminados_endpoint(db: Session = Depends(get_session)):
++    return [p for p in listar_progresos(db, incluir_inactivos=True) if not p.activo]
+ 
+ @app.get("/progreso/historial", response_model=list[Progreso])
+-def historial_progreso_total():
+-    return listar_progresos(incluir_inactivos=True)
++def historial_progreso_endpoint(db: Session = Depends(get_session)):
++    return listar_progresos_historial(db)
++
+ @app.post("/progreso/", response_model=Progreso)
+-def crear_progreso(p: Progreso):
+-    return guardar_progreso(p)
++def crear_progreso_endpoint(p: Progreso, db: Session = Depends(get_session)):
++    return guardar_progreso(db, p)
+ 
+ @app.get("/progreso/", response_model=list[Progreso])
+-def leer_progresos():
+-    return listar_progresos()
++def leer_progresos_endpoint(db: Session = Depends(get_session)):
++    return listar_progresos(db)
+ 
+ @app.get("/progreso/{nombre}", response_model=Progreso)
+-def leer_progreso(nombre: str):
+-    for prog in listar_progresos_historial():
+-        if prog.nombre.lower() == nombre.lower():
+-            return prog
+-    raise HTTPException(status_code=404, detail="Progreso no encontrado")
++def leer_progreso_endpoint(nombre: str, db: Session = Depends(get_session)):
++    prog = obtener_progreso(db, nombre)
++    if not prog:
++        raise HTTPException(status_code=404, detail="Progreso no encontrado")
++    return prog
+ 
+ @app.put("/progreso/{nombre}", response_model=Progreso)
+-def actualizar(nombre: str, nuevo: Progreso):
+-    res = actualizar_progreso(nombre, nuevo)
++def actualizar_progreso_endpoint(nombre: str, nuevo: Progreso, db: Session = Depends(get_session)):
++    res = actualizar_progreso(db, nombre, nuevo)
+     if "error" in res:
+         raise HTTPException(status_code=404, detail=res["error"])
+     return res
+ 
+ @app.delete("/progreso/{nombre}")
+-def eliminar(nombre: str):
+-    res = eliminar_progreso(nombre)
++def eliminar_progreso_endpoint(nombre: str, db: Session = Depends(get_session)):
++    res = eliminar_progreso(db, nombre)
+     if "error" in res:
+         raise HTTPException(status_code=404, detail=res["error"])
+     return res
+ 
+ @app.get("/abandono/historial", response_model=list[CausaAbandono])
+-def historial_abandono_total():
+-    return listar_abandonos(incluir_inactivos=True)
++def historial_abandono_endpoint(db: Session = Depends(get_session)):
++    return listar_abandonos_historial(db)
++
+ @app.post("/abandono/", response_model=CausaAbandono)
+-def crear_abandono(c: CausaAbandono):
+-    return guardar_abandono(c)
++def crear_abandono_endpoint(c: CausaAbandono, db: Session = Depends(get_session)):
++    return guardar_abandono(db, c)
+ 
+ @app.get("/abandono/", response_model=list[CausaAbandono])
+-def leer_abandonos():
+-    return listar_abandonos()
++def leer_abandonos_endpoint(db: Session = Depends(get_session)):
++    return listar_abandonos(db)
+ 
+ @app.get("/abandono/motivo/{motivo}", response_model=list[CausaAbandono])
+-def buscar_por_motivo(motivo: str):
+-    return obtener_abandono_por_motivo(motivo)
++def buscar_por_motivo_endpoint(motivo: str, db: Session = Depends(get_session)):
++    return obtener_abandono_por_motivo(db, motivo)
+ 
+ @app.get("/abandono/{nombre}", response_model=CausaAbandono)
+-def leer_abandono(nombre: str):
+-    for causa in listar_abandonos_historial():
+-        if causa.nombre.lower() == nombre.lower():
+-            return causa
+-    raise HTTPException(status_code=404, detail="Causa no encontrada")
++def leer_abandono_endpoint(nombre: str, db: Session = Depends(get_session)):
++    causa = obtener_abandono(db, nombre)
++    if not causa:
++        raise HTTPException(status_code=404, detail="Causa no encontrada")
++    return causa
+ 
+ @app.put("/abandono/{nombre}", response_model=CausaAbandono)
+-def actualizar_abandono(nombre: str, nueva: CausaAbandono):
+-    res = actualizar_abandono(nombre, nueva)
++def actualizar_causa_abandono_endpoint(nombre: str, nueva: CausaAbandono, db: Session = Depends(get_session)):
++    res = actualizar_abandono(db, nombre, nueva)
+     if "error" in res:
+         raise HTTPException(status_code=404, detail=res["error"])
+     return res
+ 
+ @app.delete("/abandono/{nombre}")
+-def eliminar_causa_abandono(nombre: str):
+-    res = eliminar_abandono(nombre)
++def eliminar_causa_abandono_endpoint(nombre: str, db: Session = Depends(get_session)):
++    res = eliminar_abandono(db, nombre)
+     if "error" in res:
+         raise HTTPException(status_code=404, detail=res["error"])
+     return res
+ 
+ @app.get("/abandono/eliminados", response_model=list[CausaAbandono])
+-def leer_abandonos_eliminados():
+-    return [c for c in listar_abandonos(incluir_inactivos=True) if not c.activo]
++def leer_abandonos_eliminados_endpoint(db: Session = Depends(get_session)):
++    return [c for c in listar_abandonos(db, incluir_inactivos=True) if not c.activo]
+ 
+ 
+ 
+Index: .env
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.env b/.env
+--- a/.env	(revision befbf4ba8b2ad86d4ffb67923723351ee4427a31)
++++ b/.env	(date 1747003959311)
+@@ -1,0 +1,1 @@
++DATABASE_URL="postgresql://uhgp2vudjayfcgfmjyom:0VQKcXKTapQn5XieDEqj5frNg1fuBH@bqo81mzsv6er0lyhptgm-postgresql.services.clever-cloud.com:5432/bqo81mzsv6er0lyhptgm"
