@@ -1,4 +1,6 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
+from sqlmodel import Session
+from connection_db import get_session
 from models import Progreso, CausaAbandono
 from operations import (
     guardar_progreso,
@@ -23,8 +25,8 @@ def leer_progresos_eliminados():
 def historial_progreso_total():
     return listar_progresos(incluir_inactivos=True)
 @app.post("/progreso/", response_model=Progreso)
-def crear_progreso(p: Progreso):
-    return guardar_progreso(p)
+def crear_progreso_endpoint(p: Progreso, db: Session = Depends(get_session)):
+    return guardar_progreso(db, p)
 
 @app.get("/progreso/", response_model=list[Progreso])
 def leer_progresos():
