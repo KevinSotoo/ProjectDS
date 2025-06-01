@@ -1,9 +1,13 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Request
 from typing import List, Optional
 from sqlmodel import Session
 from connection_db import get_session
 from create_tables import init_db
 from models import Progreso, CausaAbandono
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from pathlib import Path
 from operations import (
     guardar_progreso,
     listar_progresos,
@@ -18,10 +22,22 @@ from operations import (
     obtener_abandono_por_motivo, listar_progresos_historial, listar_abandonos_historial
 )
 
+
 app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+@app.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    return templates.TemplateResponse(
+        name="index.html",
+        context={"request": request, "titulo": "¡Bienvenido a mi Proyecto FastAPI!"},
+    )
+
 @app.on_event("startup")
 async def startup_event():
     init_db()
+
+
 
 @app.post("/progreso/", response_model=Progreso)
 def crear_progreso(progreso_data: Progreso, db: Session = Depends(get_session)):
