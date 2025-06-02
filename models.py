@@ -12,6 +12,7 @@ class Progreso(SQLModel, table=True):
     indice_grasa: float
     edad: int
     activo: bool = Field(default=True)
+    imagen_path: Optional[str] = Field(default=None)
 
 class CausaAbandono(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)

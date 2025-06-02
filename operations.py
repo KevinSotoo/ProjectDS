@@ -1,8 +1,39 @@
 from typing import List, Optional
 from sqlmodel import Session, select
 from models import Progreso, CausaAbandono
+import os
+import shutil
+from pathlib import Path
+from fastapi import UploadFile
+
+UPLOADS_DIR = "static/uploads"
+Path(UPLOADS_DIR).mkdir(parents=True, exist_ok=True)
+
+async def save_image_file(image: UploadFile) -> str:
+    if not image or not image.filename:
+        return None
+
+    safe_filename = Path(image.filename).name
+    destination_path = os.path.join(UPLOADS_DIR, safe_filename)
+
+    try:
+        with open(destination_path, "wb") as buffer:
+            shutil.copyfileobj(image.file, buffer)
+        print(f"Archivo guardado en: {destination_path}")
+        return f"/uploads/{safe_filename}"
+    except Exception as e:
+        print(f"ERROR al guardar el archivo: {e}")
+        return None
 
 
+def delete_image_file(image_path: str):
+    if image_path:
+        file_to_delete = os.path.join("static", image_path.lstrip('/'))
+        if os.path.exists(file_to_delete):
+            os.remove(file_to_delete)
+            print(f"Imagen eliminada: {file_to_delete}")
+        else:
+            print(f"Advertencia: La imagen {file_to_delete} no se encontró en el disco para eliminar.")
 
 def guardar_progreso(db: Session, progreso_data: Progreso) -> Progreso:
     db.add(progreso_data)
@@ -34,6 +65,7 @@ def actualizar_progreso(db: Session, nombre: str, nuevo_progreso_data: Progreso)
 def eliminar_progreso(db: Session, nombre: str) -> dict:
     db_progreso = obtener_progreso(db, nombre)
     if db_progreso:
+        delete_image_file(db_progreso.image_path)
         db_progreso.activo = False
         db.add(db_progreso)
         db.commit()
