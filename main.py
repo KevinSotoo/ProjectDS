@@ -33,7 +33,7 @@ async def startup_event():
 
 
 @app.post("/progreso/", response_model=Progreso)
-def crear_progreso(progreso_data: Progreso, db: Session = Depends(get_session)):
+def crear_progreso_sin_imagen(progreso_data: Progreso, db: Session = Depends(get_session)):
     return guardar_progreso(db, progreso_data)
 
 
