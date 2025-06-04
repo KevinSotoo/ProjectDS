@@ -65,7 +65,7 @@ async def crear_progreso_con_imagen(
         altura=altura,
         indice_grasa=indice_grasa,
         edad=edad,
-        image_path=image_path
+        imagen_path=image_path
     )
     return guardar_progreso(db, progreso_data)
 
@@ -80,12 +80,12 @@ async def actualizar_imagen_progreso(
     if not progreso_existente:
         raise HTTPException(status_code=404, detail="Progreso no encontrado")
 
-    delete_image_file(progreso_existente.image_path)
+    delete_image_file(progreso_existente.imagen_path)
     new_image_path = await save_image_file(image)
 
     if new_image_path is None:
         raise HTTPException(status_code=500, detail="Error al guardar la nueva imagen.")
-    progreso_existente.image_path = new_image_path
+    progreso_existente.imagen_path = new_image_path
 
     try:
         db.add(progreso_existente)

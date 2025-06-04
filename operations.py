@@ -65,7 +65,7 @@ def actualizar_progreso(db: Session, nombre: str, nuevo_progreso_data: Progreso)
 def eliminar_progreso(db: Session, nombre: str) -> dict:
     db_progreso = obtener_progreso(db, nombre)
     if db_progreso:
-        delete_image_file(db_progreso.image_path)
+        delete_image_file(db_progreso.imagen_path)
         db_progreso.activo = False
         db.add(db_progreso)
         db.commit()
