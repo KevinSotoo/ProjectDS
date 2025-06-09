@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b10e47-6042-4172-b022-8c2afd0b5df5" name="Changes" comment="modificar progreso listo">
+    <list default="true" id="50b10e47-6042-4172-b022-8c2afd0b5df5" name="Changes" comment="progreso html completado">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/abandonos_panel.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/abandonos_panel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/blog.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/blog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/class.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/class.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/feature.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/feature.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/progreso_panel.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/progreso_panel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/single.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/single.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +123,7 @@
       <workItem from="1749065448111" duration="7894000" />
       <workItem from="1749075096686" duration="5167000" />
       <workItem from="1749143425337" duration="3815000" />
-      <workItem from="1749493873264" duration="8663000" />
+      <workItem from="1749493873264" duration="16181000" />
     </task>
     <task id="LOCAL-00001" summary="empezamos conexion a base de datos">
       <option name="closed" value="true" />
@@ -310,7 +317,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749499225008</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="progreso html completado">
+      <option name="closed" value="true" />
+      <created>1749503117220</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1749503117220</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -352,9 +367,10 @@
     <MESSAGE value="html creados" />
     <MESSAGE value="links arreglados" />
     <MESSAGE value="modificar progreso listo" />
-    <option name="LAST_COMMIT_MESSAGE" value="modificar progreso listo" />
+    <MESSAGE value="progreso html completado" />
+    <option name="LAST_COMMIT_MESSAGE" value="progreso html completado" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ProjectDS$ProjectDS.coverage" NAME="ProjectDS Coverage Results" MODIFIED="1749501431061" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/ProjectDS$ProjectDS.coverage" NAME="ProjectDS Coverage Results" MODIFIED="1749511257143" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

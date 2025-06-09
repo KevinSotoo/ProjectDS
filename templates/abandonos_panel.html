@@ -24,7 +24,6 @@
         .card-body {
             border-radius: 0 0 8px 8px;
         }
-        /* Ajustes adicionales si quieres centrar el formulario como el de progreso */
         .page-header {
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/static/img/carousel-1.jpg), no-repeat center center;
             background-size: cover;
@@ -33,6 +32,7 @@
 </head>
 
 <body class="bg-white">
+    <!-- Navbar Start -->
     <div class="container-fluid p-0 nav-bar">
         <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
             <a href="index.html" class="navbar-brand">
@@ -44,7 +44,9 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav ml-auto p-4 bg-secondary">
                     <a href="index.html" class="nav-item nav-link">Inicio</a>
-                    <a href="/progreso_panel" class="nav-item nav-link">Registro de Progreso</a> <a href="/abandono_panel" class="nav-item nav-link active">Registro de Abandono</a> <a href="about.html" class="nav-item nav-link">Acerca de mi</a>
+                    <a href="/progreso_panel" class="nav-item nav-link">Registro de Progreso</a>
+                    <a href="/abandono_panel" class="nav-item nav-link active">Registro de Abandono</a>
+                    <a href="about.html" class="nav-item nav-link">Acerca de mi</a>
                     <a href="feature.html" class="nav-item nav-link">Objetivos</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Fases</a>
@@ -57,6 +59,9 @@
             </div>
         </nav>
     </div>
+    <!-- Navbar End -->
+
+    <!-- Page Header Start -->
     <div class="container-fluid page-header mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center pt-0 pt-lg-5" style="min-height: 400px">
             <h4 class="display-4 mb-3 mt-0 mt-lg-5 text-white text-uppercase font-weight-bold">Registro de Abandono</h4>
@@ -67,21 +72,35 @@
             </div>
         </div>
     </div>
+    <!-- Page Header End -->
+
+    <!-- Registro de Abandono Start -->
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div class="card border-0">
-                    <div class="card-header bg-secondary text-center p-4"> <h1 class="text-white m-0">Registra Causa de Abandono</h1>
+                    <div class="card-header bg-secondary text-center p-4">
+                        <h1 class="text-white m-0">Registra Causa de Abandono</h1>
                     </div>
                     <div class="card-body rounded-bottom bg-white p-5">
-                        <form id="abandonoForm"> <div class="form-group">
+                        <form id="abandonoForm">
+                            <div class="form-group">
                                 <input type="text" class="form-control p-4" name="nombre" placeholder="Nombre completo del usuario" required>
                             </div>
                             <div class="form-group">
                                 <input type="date" class="form-control p-4" name="fecha" required>
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control p-4" name="motivo" placeholder="Describe el motivo del abandono" rows="4" required></textarea>
+                                <select class="form-control p-4" name="motivo" required>
+                                    <option value="" disabled selected hidden="d">Selecciona un motivo de abandono</option>
+                                    <option value="Falta de tiempo">Falta de tiempo</option>
+                                    <option value="Motivación baja">Motivación baja</option>
+                                    <option value="Lesión o problema de salud">Lesión o problema de salud</option>
+                                    <option value="Problemas económicos">Problemas económicos</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control p-4" name="detalle" placeholder="Agrega detalles adicionales (opcional)" rows="2"></textarea>
                             </div>
                             <div>
                                 <button class="btn btn-secondary btn-block py-3" type="submit">Registrar Abandono</button>
@@ -95,6 +114,139 @@
             </div>
         </div>
     </div>
+    <!-- Registro de Abandono End -->
+
+    <!-- Modificar Abandono Start -->
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0">
+                    <div class="card-header bg-warning text-center p-4">
+                        <h2 class="text-white m-0">Modificar Causa de Abandono</h2>
+                    </div>
+                    <div class="card-body rounded-bottom bg-white p-5">
+                        <form id="modificarAbandonoForm">
+                            <div class="form-group">
+                                <input type="text" class="form-control p-4" id="modificarNombre" name="nombre" placeholder="Nombre completo del usuario a modificar" required>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-info btn-block py-2" type="button" id="buscarAbandonoBtn">Buscar Abandono</button>
+                            </div>
+                            <div id="modificarCampos" style="display:none;">
+                                <div class="form-group">
+                                    <input type="text" class="form-control p-4" name="nuevo_nombre" placeholder="Nuevo nombre">
+                                </div>
+                                <div class="form-group">
+                                    <input type="date" class="form-control p-4" name="fecha">
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control p-4" name="motivo" required>
+                                        <option value="" disabled selected>Selecciona un motivo de abandono</option>
+                                        <option value="Falta de tiempo">Falta de tiempo</option>
+                                        <option value="Motivación baja">Motivación baja</option>
+                                        <option value="Lesión o problema de salud">Lesión o problema de salud</option>
+                                        <option value="Problemas económicos">Problemas económicos</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control p-4" name="detalle" placeholder="Agrega detalles adicionales (opcional)" rows="2"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <select class="custom-select px-4" name="activo" style="height: 50px;">
+                                        <option value="" selected disabled>¿Activo?</option>
+                                        <option value="true">Sí</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <button class="btn btn-warning btn-block py-3" type="submit">Modificar Abandono</button>
+                                </div>
+                            </div>
+                            <div class="mt-3" id="modificarMessageContainer" style="display: none;">
+                                <div class="alert" id="modificarMessage" role="alert"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modificar Abandono End -->
+
+    <!-- Historial de Abandonos Start -->
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-12 mx-auto">
+                <div class="card border-0">
+                    <div class="card-header bg-info text-center p-4">
+                        <h2 class="text-white m-0">Historial de Abandonos</h2>
+                    </div>
+                    <div class="card-body rounded-bottom bg-white p-5">
+                        <table class="table table-bordered" id="tablaHistorialAbandono">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Fecha</th>
+                                    <th>Motivo</th>
+                                    <th>Detalle</th>
+                                    <th>Activo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Borrar Abandono Start -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 mx-auto">
+                <div class="card border-0">
+                    <div class="card-header bg-danger text-center p-4">
+                        <h2 class="text-white m-0">Borrar Causa de Abandono</h2>
+                    </div>
+                    <div class="card-body rounded-bottom bg-white p-5">
+                        <form id="borrarAbandonoForm">
+                            <div class="form-group">
+                                <input type="text" class="form-control p-4" id="borrarAbandonoNombre" name="nombre" placeholder="Nombre completo a borrar" required>
+                            </div>
+                            <div>
+                                <button class="btn btn-danger btn-block py-3" type="submit">Borrar Abandono</button>
+                            </div>
+                            <div class="mt-3" id="borrarAbandonoMessageContainer" style="display: none;">
+                                <div class="alert" id="borrarAbandonoMessage" role="alert"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Borrar Abandono End -->
+
+    <!-- Botón llamativo para registro al final -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 mx-auto text-center">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body bg-light rounded">
+                        <h3 class="mb-4 font-weight-bold text-dark">¿Cambiaste de opinión?</h3>
+                        <a href="/progreso_panel" class="btn btn-danger btn-lg font-weight-bold px-5 py-3" style="font-size: 1.5rem; border-radius: 2rem; box-shadow: 0 4px 20px rgba(220,53,69,0.15); transition: background 0.2s;">
+                            Únete ahora
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Start -->
     <div class="footer container-fluid mt-5 py-5 px-sm-3 px-md-5 text-white">
         <div class="row pt-5">
             <div class="col-lg-3 col-md-6 mb-5">
@@ -110,59 +262,185 @@
             </p>
         </div>
     </div>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
     <a href="#" class="btn btn-outline-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-
+    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="/static/lib/easing/easing.min.js"></script>
     <script src="/static/lib/waypoints/waypoints.min.js"></script>
-
     <script src="/static/js/main.js"></script>
 
     <script>
         $(document).ready(function() {
+            // Registrar abandono
             $('#abandonoForm').submit(function(e) {
                 e.preventDefault();
 
-                // Recolectar datos del formulario manualmente para JSON
                 const formData = {
                     nombre: $('input[name="nombre"]').val(),
                     fecha: $('input[name="fecha"]').val(),
-                    motivo: $('textarea[name="motivo"]').val(),
-                    activo: true // Asumimos que al registrar un abandono, el usuario ya no está activo
+                    motivo: $('select[name="motivo"]').val(),
+                    detalle: $('textarea[name="detalle"]').val(),
+                    activo: true
                 };
 
                 $.ajax({
-                    url: '/abandono/', // Endpoint para crear causa de abandono
+                    url: '/abandono/',
                     type: 'POST',
-                    data: JSON.stringify(formData), // Convertir a JSON string
-                    contentType: 'application/json', // Indicar que enviamos JSON
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json',
                     success: function(response) {
                         showMessage('¡Registro de abandono exitoso!', 'success');
                         $('#abandonoForm')[0].reset();
+                        cargarHistorialAbandono();
                     },
                     error: function(xhr) {
                         let errorMessage = 'Ha ocurrido un error al registrar el abandono.';
                         if (xhr.responseJSON && xhr.responseJSON.detail) {
                             errorMessage = xhr.responseJSON.detail;
                         } else if (xhr.responseText) {
-                            errorMessage = xhr.responseText; // En caso de que no sea JSON el error
+                            errorMessage = xhr.responseText;
                         }
                         showMessage(errorMessage, 'danger');
                     }
                 });
             });
 
+            // Modificar abandono: buscar
+            $('#buscarAbandonoBtn').click(function() {
+                let nombre = $('#modificarNombre').val();
+                if (!nombre) return;
+                $.ajax({
+                    url: '/abandono/' + encodeURIComponent(nombre),
+                    type: 'GET',
+                    success: function(data) {
+                        $('#modificarCampos').show();
+                        $('#modificarAbandonoForm [name="nuevo_nombre"]').val(data.nombre);
+                        $('#modificarAbandonoForm [name="fecha"]').val(data.fecha);
+                        $('#modificarAbandonoForm [name="motivo"]').val(data.motivo);
+                        $('#modificarAbandonoForm [name="detalle"]').val(data.detalle);
+                        $('#modificarAbandonoForm [name="activo"]').val(data.activo ? "true" : "false");
+                    },
+                    error: function() {
+                        $('#modificarCampos').hide();
+                        showModificarMessage("No se encontró la causa de abandono.", "danger");
+                    }
+                });
+            });
+
+            // Modificar abandono: enviar cambios
+            $('#modificarAbandonoForm').submit(function(e) {
+                e.preventDefault();
+                let nombreOriginal = $('#modificarNombre').val();
+                let nuevo_nombre = $('#modificarAbandonoForm [name="nuevo_nombre"]').val();
+                let fecha = $('#modificarAbandonoForm [name="fecha"]').val();
+                let motivo = $('#modificarAbandonoForm [name="motivo"]').val();
+                let detalle = $('#modificarAbandonoForm [name="detalle"]').val();
+                let activo = $('#modificarAbandonoForm [name="activo"]').val();
+                activo = (activo === "true");
+                const data = {
+                    nombre: nuevo_nombre,
+                    fecha: fecha,
+                    motivo: motivo,
+                    detalle: detalle,
+                    activo: activo
+                };
+
+                $.ajax({
+                    url: '/abandono/' + encodeURIComponent(nombreOriginal),
+                    type: 'PUT',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        showModificarMessage('Causa de abandono modificada exitosamente.', 'success');
+                        cargarHistorialAbandono();
+                    },
+                    error: function(xhr) {
+                        let errorMessage = 'Error al modificar la causa de abandono.';
+                        if (xhr.responseJSON && xhr.responseJSON.detail) {
+                            errorMessage = xhr.responseJSON.detail;
+                        }
+                        showModificarMessage(errorMessage, 'danger');
+                    }
+                });
+            });
+
+            // Mostrar historial
+            function cargarHistorialAbandono() {
+                $.ajax({
+                    url: '/abandono_historial/',
+                    type: 'GET',
+                    success: function(datos) {
+                        let tbody = $('#tablaHistorialAbandono tbody');
+                        tbody.empty();
+                        datos.forEach(function(a) {
+                            tbody.append(`<tr>
+                                <td>${a.nombre}</td>
+                                <td>${a.fecha ? a.fecha : ''}</td>
+                                <td>${a.motivo}</td>
+                                <td>${a.detalle}</td>
+                                <td>${a.activo ? 'Sí' : 'No'}</td>
+                            </tr>`);
+                        });
+                    },
+                    error: function() {
+                        let tbody = $('#tablaHistorialAbandono tbody');
+                        tbody.empty();
+                        tbody.append('<tr><td colspan="5" class="text-center text-danger">Error al cargar historial</td></tr>');
+                    }
+                });
+            }
+            cargarHistorialAbandono();
+
+            // Borrar abandono por nombre
+            $('#borrarAbandonoForm').submit(function(e) {
+                e.preventDefault();
+                var nombre = $('#borrarAbandonoNombre').val();
+                if (!nombre) return;
+                if (!confirm(`¿Seguro que deseas borrar la causa de abandono de "${nombre}"?`)) return;
+                $.ajax({
+                    url: '/abandono/' + encodeURIComponent(nombre),
+                    type: 'DELETE',
+                    success: function() {
+                        showBorrarAbandonoMessage('Causa de abandono borrada exitosamente. Ahora puedes registrar un nuevo progreso.', 'success');
+                        $('#borrarAbandonoForm')[0].reset();
+                        cargarHistorialAbandono();
+                        setTimeout(function() {
+                            window.location.href = '/progreso_panel';
+                        }, 1500);
+                    },
+                    error: function(xhr) {
+                        let errorMessage = 'Error al borrar la causa de abandono.';
+                        if (xhr.responseJSON && xhr.responseJSON.detail) {
+                            errorMessage = xhr.responseJSON.detail;
+                        }
+                        showBorrarAbandonoMessage(errorMessage, 'danger');
+                    }
+                });
+            });
+
+            // Mensajes
             function showMessage(message, type) {
                 $('#message').text(message);
                 $('#message').removeClass().addClass('alert alert-' + type);
                 $('#messageContainer').show();
-
-                // Ocultar el mensaje después de 5 segundos
-                setTimeout(function() {
-                    $('#messageContainer').fadeOut();
-                }, 5000);
+                setTimeout(function() { $('#messageContainer').fadeOut(); }, 5000);
+            }
+            function showModificarMessage(message, type) {
+                $('#modificarMessage').text(message);
+                $('#modificarMessage').removeClass().addClass('alert alert-' + type);
+                $('#modificarMessageContainer').show();
+                setTimeout(function() { $('#modificarMessageContainer').fadeOut(); }, 5000);
+            }
+            function showBorrarAbandonoMessage(message, type) {
+                $('#borrarAbandonoMessage').text(message);
+                $('#borrarAbandonoMessage').removeClass().addClass('alert alert-' + type);
+                $('#borrarAbandonoMessageContainer').show();
+                setTimeout(function() { $('#borrarAbandonoMessageContainer').fadeOut(); }, 5000);
             }
         });
     </script>

@@ -8,7 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
-from operations import guardar_progreso, listar_progresos, obtener_progreso, actualizar_progreso, eliminar_progreso, guardar_abandono, listar_abandonos, obtener_abandono, actualizar_abandono, eliminar_abandono, obtener_abandono_por_motivo, listar_progresos_historial, listar_abandonos_historial, save_image_file, delete_image_file
+from operations import guardar_progreso, listar_progresos, obtener_progreso, actualizar_progreso, eliminar_progreso, guardar_abandono, listar_abandonos, obtener_abandono, eliminar_abandono, obtener_abandono_por_motivo, listar_progresos_historial, listar_abandonos_historial, save_image_file, delete_image_file, actualizar_abandono as actualizar_abandono_db
 
 
 app = FastAPI()
@@ -26,6 +26,14 @@ async def read_root(request: Request):
         name="index.html",
         context={"request": request, "titulo": "¡Bienvenido a mi Proyecto FastAPI!"},
     )
+@app.get("/about")
+@app.get("/about.html")
+async def read_root(request: Request):
+    return templates.TemplateResponse(
+        name="about.html",
+        context={"request": request, "titulo": "¡Bienvenido a mi Proyecto FastAPI!"},
+    )
+
 
 @app.get("/progreso_panel")
 @app.get("/progreso_panel.html")
@@ -188,7 +196,7 @@ def abandono_por_motivo(motivo: str, db: Session = Depends(get_session)):
 
 @app.put("/abandono/{nombre}", response_model=CausaAbandono)
 def actualizar_abandono(nombre: str, causa_data: CausaAbandono, db: Session = Depends(get_session)):
-    updated_abandono = actualizar_abandono(db, nombre, causa_data)
+    updated_abandono = actualizar_abandono_db(db, nombre, causa_data)
     if isinstance(updated_abandono, dict) and "error" in updated_abandono:
         raise HTTPException(status_code=404, detail=updated_abandono["error"])
     return updated_abandono
