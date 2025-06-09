@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <title>Gymnast - Registro de Abandono</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free Website Template" name="keywords">
+    <meta content="Free Website Template" name="description">
+
+    <link href="/static/img/favicon.ico" rel="icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/lib/flaticon/font/flaticon.css" rel="stylesheet">
+    <link href="/static/css/style.min.css" rel="stylesheet">
+
+    <style>
+        .container {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        .card-header {
+            border-radius: 8px 8px 0 0;
+        }
+        .card-body {
+            border-radius: 0 0 8px 8px;
+        }
+        /* Ajustes adicionales si quieres centrar el formulario como el de progreso */
+        .page-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/static/img/carousel-1.jpg), no-repeat center center;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body class="bg-white">
+    <div class="container-fluid p-0 nav-bar">
+        <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
+            <a href="index.html" class="navbar-brand">
+                <h1 class="m-0 display-4 font-weight-bold text-uppercase text-white">Gymnast</h1>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav ml-auto p-4 bg-secondary">
+                    <a href="index.html" class="nav-item nav-link">Inicio</a>
+                    <a href="/progreso_panel" class="nav-item nav-link">Registro de Progreso</a> <a href="/abandono_panel" class="nav-item nav-link active">Registro de Abandono</a> <a href="about.html" class="nav-item nav-link">Acerca de mi</a>
+                    <a href="feature.html" class="nav-item nav-link">Objetivos</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Fases</a>
+                        <div class="dropdown-menu text-capitalize">
+                            <a href="blog.html" class="dropdown-item">Planeacion</a>
+                            <a href="single.html" class="dropdown-item">Diseño</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="container-fluid page-header mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center pt-0 pt-lg-5" style="min-height: 400px">
+            <h4 class="display-4 mb-3 mt-0 mt-lg-5 text-white text-uppercase font-weight-bold">Registro de Abandono</h4>
+            <div class="d-inline-flex">
+                <p class="m-0 text-white"><a class="text-white" href="index.html">Inicio</a></p>
+                <p class="m-0 text-white px-2">/</p>
+                <p class="m-0 text-white">Abandono</p>
+            </div>
+        </div>
+    </div>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0">
+                    <div class="card-header bg-secondary text-center p-4"> <h1 class="text-white m-0">Registra Causa de Abandono</h1>
+                    </div>
+                    <div class="card-body rounded-bottom bg-white p-5">
+                        <form id="abandonoForm"> <div class="form-group">
+                                <input type="text" class="form-control p-4" name="nombre" placeholder="Nombre completo del usuario" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="date" class="form-control p-4" name="fecha" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control p-4" name="motivo" placeholder="Describe el motivo del abandono" rows="4" required></textarea>
+                            </div>
+                            <div>
+                                <button class="btn btn-secondary btn-block py-3" type="submit">Registrar Abandono</button>
+                            </div>
+                            <div class="mt-3" id="messageContainer" style="display: none;">
+                                <div class="alert" id="message" role="alert"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer container-fluid mt-5 py-5 px-sm-3 px-md-5 text-white">
+        <div class="row pt-5">
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-primary mb-4">Contáctanos</h4>
+                <p><i class="fa fa-map-marker-alt mr-2"></i>123 Calle, Ciudad, País</p>
+                <p><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
+                <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
+            </div>
+        </div>
+        <div class="container border-top border-dark pt-5">
+            <p class="m-0 text-center text-white">
+                &copy; <a class="text-white font-weight-bold" href="#">Gymnast</a>. Todos los derechos reservados.
+            </p>
+        </div>
+    </div>
+    <a href="#" class="btn btn-outline-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/lib/easing/easing.min.js"></script>
+    <script src="/static/lib/waypoints/waypoints.min.js"></script>
+
+    <script src="/static/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#abandonoForm').submit(function(e) {
+                e.preventDefault();
+
+                // Recolectar datos del formulario manualmente para JSON
+                const formData = {
+                    nombre: $('input[name="nombre"]').val(),
+                    fecha: $('input[name="fecha"]').val(),
+                    motivo: $('textarea[name="motivo"]').val(),
+                    activo: true // Asumimos que al registrar un abandono, el usuario ya no está activo
+                };
+
+                $.ajax({
+                    url: '/abandono/', // Endpoint para crear causa de abandono
+                    type: 'POST',
+                    data: JSON.stringify(formData), // Convertir a JSON string
+                    contentType: 'application/json', // Indicar que enviamos JSON
+                    success: function(response) {
+                        showMessage('¡Registro de abandono exitoso!', 'success');
+                        $('#abandonoForm')[0].reset();
+                    },
+                    error: function(xhr) {
+                        let errorMessage = 'Ha ocurrido un error al registrar el abandono.';
+                        if (xhr.responseJSON && xhr.responseJSON.detail) {
+                            errorMessage = xhr.responseJSON.detail;
+                        } else if (xhr.responseText) {
+                            errorMessage = xhr.responseText; // En caso de que no sea JSON el error
+                        }
+                        showMessage(errorMessage, 'danger');
+                    }
+                });
+            });
+
+            function showMessage(message, type) {
+                $('#message').text(message);
+                $('#message').removeClass().addClass('alert alert-' + type);
+                $('#messageContainer').show();
+
+                // Ocultar el mensaje después de 5 segundos
+                setTimeout(function() {
+                    $('#messageContainer').fadeOut();
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+
+</html>
