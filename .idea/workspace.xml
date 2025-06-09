@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b10e47-6042-4172-b022-8c2afd0b5df5" name="Changes" comment="arreglo base de datos image">
-      <change afterPath="$PROJECT_DIR$/templates/abandonos_panel.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/progreso_panel.html" afterDir="false" />
+    <list default="true" id="50b10e47-6042-4172-b022-8c2afd0b5df5" name="Changes" comment="html creados">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
@@ -119,7 +117,7 @@
       <workItem from="1749065448111" duration="7894000" />
       <workItem from="1749075096686" duration="5167000" />
       <workItem from="1749143425337" duration="3815000" />
-      <workItem from="1749493873264" duration="2011000" />
+      <workItem from="1749493873264" duration="3130000" />
     </task>
     <task id="LOCAL-00001" summary="empezamos conexion a base de datos">
       <option name="closed" value="true" />
@@ -289,7 +287,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749068463631</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="html creados">
+      <option name="closed" value="true" />
+      <created>1749496129871</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1749496129871</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -328,9 +334,10 @@
     <MESSAGE value="requirements actualizado2" />
     <MESSAGE value="endpoints creacion progreso" />
     <MESSAGE value="arreglo base de datos image" />
-    <option name="LAST_COMMIT_MESSAGE" value="arreglo base de datos image" />
+    <MESSAGE value="html creados" />
+    <option name="LAST_COMMIT_MESSAGE" value="html creados" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ProjectDS$ProjectDS.coverage" NAME="ProjectDS Coverage Results" MODIFIED="1749495147439" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/ProjectDS$ProjectDS.coverage" NAME="ProjectDS Coverage Results" MODIFIED="1749496969132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

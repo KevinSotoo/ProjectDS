@@ -25,21 +25,23 @@ async def read_root(request: Request):
         name="index.html",
         context={"request": request, "titulo": "¡Bienvenido a mi Proyecto FastAPI!"},
     )
-@app.get("/progreso_panel", response_class=HTMLResponse)
+@app.get("/progreso_panel")
+@app.get("/progreso_panel.html")
 async def get_progreso(request: Request):
-
     return templates.TemplateResponse(
         name="progreso_panel.html",
         context={"request": request, "titulo": "Gestión de Progreso del Gimnasio"},
     )
 
-@app.get("/abandonos_panel", response_class=HTMLResponse)
-async def get_progreso(request: Request):
 
+@app.get("/abandonos_panel")
+@app.get("/abandonos_panel.html")
+async def get_abandono(request: Request):
     return templates.TemplateResponse(
         name="abandonos_panel.html",
-        context={"request": request, "titulo": "Gestión de Progreso del Gimnasio"},
+        context={"request": request, "titulo": "Gestión de Abandonos del Gimnasio"},
     )
+
 
 @app.on_event("startup")
 async def startup_event():
