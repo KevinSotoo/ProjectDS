@@ -260,6 +260,33 @@
     </div>
     <!-- Mostrar Progresos Historial End -->
 
+    <!-- Borrar Progreso Start -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 mx-auto">
+                <div class="card border-0">
+                    <div class="card-header bg-danger text-center p-4">
+                        <h2 class="text-white m-0">Borrar Progreso</h2>
+                    </div>
+                    <div class="card-body rounded-bottom bg-white p-5">
+                        <form id="borrarProgresoForm">
+                            <div class="form-group">
+                                <input type="text" class="form-control p-4" id="borrarNombre" name="nombre" placeholder="Nombre completo a borrar" required>
+                            </div>
+                            <div>
+                                <button class="btn btn-danger btn-block py-3" type="submit">Borrar Progreso</button>
+                            </div>
+                            <div class="mt-3" id="borrarMessageContainer" style="display: none;">
+                                <div class="alert" id="borrarMessage" role="alert"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Borrar Progreso End -->
+
     <!-- Footer Start -->
     <div class="footer container-fluid mt-5 py-5 px-sm-3 px-md-5 text-white">
         <div class="row pt-5">
@@ -293,8 +320,8 @@
     <script src="/static/js/main.js"></script>
 
     <script>
-        // Registro de Progreso (igual que antes)
         $(document).ready(function() {
+            // Registrar progreso
             $('#progresoForm').submit(function(e) {
                 e.preventDefault();
 
@@ -328,7 +355,7 @@
                 setTimeout(function() { $('#messageContainer').fadeOut(); }, 5000);
             }
 
-            // --- Modificar Progreso ---
+            // Modificar progreso
             $('#buscarProgresoBtn').click(function() {
                 let nombre = $('#modificarNombre').val();
                 if (!nombre) return;
@@ -386,10 +413,10 @@
                 setTimeout(function() { $('#modificarMessageContainer').fadeOut(); }, 5000);
             }
 
-            // --- Historial ---
+            // Mostrar historial
             function cargarHistorial() {
                 $.ajax({
-                    url: '/progreso/historial',
+                    url: '/progreso_historial',
                     type: 'GET',
                     success: function(datos) {
                         let tbody = $('#tablaHistorial tbody');
@@ -422,6 +449,37 @@
                 });
             }
             cargarHistorial();
+
+            // Borrar progreso
+            $('#borrarProgresoForm').submit(function(e) {
+                e.preventDefault();
+                var nombre = $('#borrarNombre').val();
+                if (!nombre) return;
+                if (!confirm(`¿Seguro que deseas borrar el progreso de "${nombre}"?`)) return;
+                $.ajax({
+                    url: '/progreso/' + encodeURIComponent(nombre),
+                    type: 'DELETE',
+                    success: function() {
+                        showBorrarMessage('Progreso borrado exitosamente.', 'success');
+                        $('#borrarProgresoForm')[0].reset();
+                        cargarHistorial();
+                    },
+                    error: function(xhr) {
+                        let errorMessage = 'Error al borrar el progreso.';
+                        if (xhr.responseJSON && xhr.responseJSON.detail) {
+                            errorMessage = xhr.responseJSON.detail;
+                        }
+                        showBorrarMessage(errorMessage, 'danger');
+                    }
+                });
+            });
+
+            function showBorrarMessage(message, type) {
+                $('#borrarMessage').text(message);
+                $('#borrarMessage').removeClass().addClass('alert alert-' + type);
+                $('#borrarMessageContainer').show();
+                setTimeout(function() { $('#borrarMessageContainer').fadeOut(); }, 5000);
+            }
         });
     </script>
 </body>
