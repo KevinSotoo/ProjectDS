@@ -52,10 +52,22 @@ def obtener_progreso(db: Session, nombre: str) -> Optional[Progreso]:
     statement = select(Progreso).where(Progreso.nombre.ilike(nombre))
     return db.exec(statement).first()
 
-def actualizar_progreso(db: Session, nombre: str, nuevo_progreso_data: Progreso) -> Progreso | dict:
+async def actualizar_progreso(
+    db: Session,
+    nombre: str,
+    nuevo_progreso_data: Progreso,
+    nueva_imagen: UploadFile = None
+) -> Progreso | dict:
     db_progreso = obtener_progreso(db, nombre)
     if db_progreso:
-        db_progreso.sqlmodel_update(nuevo_progreso_data.dict(exclude_unset=True))
+        if nueva_imagen and nueva_imagen.filename:
+            delete_image_file(db_progreso.imagen_path)
+            nuevo_path = await save_image_file(nueva_imagen)
+            db_progreso.imagen_path = nuevo_path
+
+        for field, value in nuevo_progreso_data.dict(exclude_unset=True, exclude={"id", "imagen_path"}).items():
+            setattr(db_progreso, field, value)
+
         db.add(db_progreso)
         db.commit()
         db.refresh(db_progreso)

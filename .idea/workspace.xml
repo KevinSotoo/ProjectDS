@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50b10e47-6042-4172-b022-8c2afd0b5df5" name="Changes" comment="html creados">
+    <list default="true" id="50b10e47-6042-4172-b022-8c2afd0b5df5" name="Changes" comment="links arreglados">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/operations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/uploads/aw.PNG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/progreso_panel.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/progreso_panel.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +119,7 @@
       <workItem from="1749065448111" duration="7894000" />
       <workItem from="1749075096686" duration="5167000" />
       <workItem from="1749143425337" duration="3815000" />
-      <workItem from="1749493873264" duration="3130000" />
+      <workItem from="1749493873264" duration="5267000" />
     </task>
     <task id="LOCAL-00001" summary="empezamos conexion a base de datos">
       <option name="closed" value="true" />
@@ -295,7 +297,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749496129871</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="links arreglados">
+      <option name="closed" value="true" />
+      <created>1749497038613</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1749497038613</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -335,9 +345,10 @@
     <MESSAGE value="endpoints creacion progreso" />
     <MESSAGE value="arreglo base de datos image" />
     <MESSAGE value="html creados" />
-    <option name="LAST_COMMIT_MESSAGE" value="html creados" />
+    <MESSAGE value="links arreglados" />
+    <option name="LAST_COMMIT_MESSAGE" value="links arreglados" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ProjectDS$ProjectDS.coverage" NAME="ProjectDS Coverage Results" MODIFIED="1749496969132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/ProjectDS$ProjectDS.coverage" NAME="ProjectDS Coverage Results" MODIFIED="1749498784484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

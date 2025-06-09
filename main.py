@@ -19,12 +19,14 @@ UPLOADS_DIR = "static/uploads"
 Path(UPLOADS_DIR).mkdir(parents=True, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=UPLOADS_DIR), name="uploads")
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/")
+@app.get("/index.html")
 async def read_root(request: Request):
     return templates.TemplateResponse(
         name="index.html",
         context={"request": request, "titulo": "¡Bienvenido a mi Proyecto FastAPI!"},
     )
+
 @app.get("/progreso_panel")
 @app.get("/progreso_panel.html")
 async def get_progreso(request: Request):
@@ -125,12 +127,34 @@ def obtener_progreso_por_nombre(nombre: str, db: Session = Depends(get_session))
     return progreso
 
 @app.put("/progreso/{nombre}", response_model=Progreso)
-def actualizar_progreso(nombre: str, progreso_data: Progreso, db: Session = Depends(get_session)):
-    updated_progreso = actualizar_progreso(db, nombre, progreso_data)
+async def actualizar_progreso_endpoint(
+    nombre: str,
+    nuevo_nombre: str = Form(None),
+    sexo: str = Form(None),
+    tiempo_entrenando: str = Form(None),
+    objetivo: str = Form(None),
+    peso: float = Form(None),
+    altura: float = Form(None),
+    indice_grasa: float = Form(None),
+    edad: int = Form(None),
+    image: UploadFile = File(None),
+    db: Session = Depends(get_session)
+):
+    from models import Progreso
+    progreso_data = Progreso(
+        nombre=nuevo_nombre if nuevo_nombre else nombre,
+        sexo=sexo,
+        tiempo_entrenando=tiempo_entrenando,
+        objetivo=objetivo,
+        peso=peso,
+        altura=altura,
+        indice_grasa=indice_grasa,
+        edad=edad
+    )
+    updated_progreso = await actualizar_progreso(db, nombre, progreso_data, image)
     if isinstance(updated_progreso, dict) and "error" in updated_progreso:
         raise HTTPException(status_code=404, detail=updated_progreso["error"])
     return updated_progreso
-
 @app.delete("/progreso/{nombre}", response_model=dict)
 def delete_progreso(nombre: str, db: Session = Depends(get_session)):
     result = eliminar_progreso(db, nombre)
