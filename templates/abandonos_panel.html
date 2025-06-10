@@ -79,7 +79,7 @@
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div class="card border-0">
-                    <div class="card-header bg-secondary text-center p-4">
+                    <div class="card-header bg-danger text-center p-4">
                         <h1 class="text-white m-0">Registra Causa de Abandono</h1>
                     </div>
                     <div class="card-body rounded-bottom bg-white p-5">
@@ -103,7 +103,7 @@
                                 <textarea class="form-control p-4" name="detalle" placeholder="Agrega detalles adicionales (opcional)" rows="2"></textarea>
                             </div>
                             <div>
-                                <button class="btn btn-secondary btn-block py-3" type="submit">Registrar Abandono</button>
+                                <button class="btn btn-danger btn-block py-3" type="submit">Registrar Abandono</button>
                             </div>
                             <div class="mt-3" id="messageContainer" style="display: none;">
                                 <div class="alert" id="message" role="alert"></div>
@@ -116,12 +116,14 @@
     </div>
     <!-- Registro de Abandono End -->
 
+    <hr class="my-5">
+
     <!-- Modificar Abandono Start -->
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div class="card border-0">
-                    <div class="card-header bg-warning text-center p-4">
+                    <div class="card-header bg-danger text-center p-4">
                         <h2 class="text-white m-0">Modificar Causa de Abandono</h2>
                     </div>
                     <div class="card-body rounded-bottom bg-white p-5">
@@ -130,7 +132,7 @@
                                 <input type="text" class="form-control p-4" id="modificarNombre" name="nombre" placeholder="Nombre completo del usuario a modificar" required>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-info btn-block py-2" type="button" id="buscarAbandonoBtn">Buscar Abandono</button>
+                                <button class="btn btn-danger btn-block py-2" type="button" id="buscarAbandonoBtn">Buscar Abandono</button>
                             </div>
                             <div id="modificarCampos" style="display:none;">
                                 <div class="form-group">
@@ -159,7 +161,7 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <button class="btn btn-warning btn-block py-3" type="submit">Modificar Abandono</button>
+                                    <button class="btn btn-danger btn-block py-3" type="submit">Modificar Abandono</button>
                                 </div>
                             </div>
                             <div class="mt-3" id="modificarMessageContainer" style="display: none;">
@@ -173,17 +175,19 @@
     </div>
     <!-- Modificar Abandono End -->
 
+    <hr class="my-5">
+
     <!-- Historial de Abandonos Start -->
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-12 mx-auto">
                 <div class="card border-0">
-                    <div class="card-header bg-info text-center p-4">
+                    <div class="card-header bg-danger text-center p-4">
                         <h2 class="text-white m-0">Historial de Abandonos</h2>
                     </div>
                     <div class="card-body rounded-bottom bg-white p-5">
                         <table class="table table-bordered" id="tablaHistorialAbandono">
-                            <thead>
+                            <thead class="bg-danger text-white">
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Fecha</th>
@@ -202,6 +206,7 @@
         </div>
     </div>
 
+    <hr class="my-5">
 
     <!-- Borrar Abandono Start -->
     <div class="container py-5">
@@ -229,6 +234,8 @@
         </div>
     </div>
     <!-- Borrar Abandono End -->
+
+    <hr class="my-5">
 
     <!-- Botón llamativo para registro al final -->
     <div class="container py-5">
@@ -265,7 +272,7 @@
     <!-- Footer End -->
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-outline-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+    <a href="#" class="btn btn-danger back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
