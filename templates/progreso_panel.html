@@ -60,7 +60,7 @@
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div class="card border-0">
-                    <div class="card-header bg-primary text-center p-4">
+                    <div class="card-header bg-danger text-center p-4">
                         <h1 class="text-white m-0">Registra tu progreso</h1>
                     </div>
                     <div class="card-body rounded-bottom bg-white p-5">
@@ -125,7 +125,7 @@
                                 <input type="file" class="form-control-file" id="imagen" name="image" accept="image/*">
                             </div>
                             <div>
-                                <button class="btn btn-primary btn-block py-3" type="submit">Registrar Progreso</button>
+                                <button class="btn btn-danger btn-block py-3" type="submit">Registrar Progreso</button>
                             </div>
                             <div class="mt-3" id="messageContainer" style="display: none;">
                                 <div class="alert" id="message" role="alert"></div>
@@ -136,6 +136,7 @@
             </div>
         </div>
     </div>
+    <hr class="my-5">
     <!-- Progreso Form End -->
 
     <!-- Modificar Progreso Start -->
@@ -143,7 +144,7 @@
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div class="card border-0">
-                    <div class="card-header bg-warning text-center p-4">
+                    <div class="card-header bg-danger text-center p-4">
                         <h2 class="text-white m-0">Modificar Progreso</h2>
                     </div>
                     <div class="card-body rounded-bottom bg-white p-5">
@@ -152,7 +153,7 @@
                                 <input type="text" class="form-control p-4" id="modificarNombre" name="nombre" placeholder="Nombre completo a modificar" required>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-info btn-block py-2" type="button" id="buscarProgresoBtn">Buscar Progreso</button>
+                                <button class="btn btn-danger btn-block py-2" type="button" id="buscarProgresoBtn">Buscar Progreso</button>
                             </div>
                             <div id="modificarCampos" style="display:none;">
                                 <div class="form-group">
@@ -215,7 +216,7 @@
                                     <input type="file" class="form-control-file" id="modificarImagen" name="image" accept="image/*">
                                 </div>
                                 <div>
-                                    <button class="btn btn-warning btn-block py-3" type="submit">Modificar Progreso</button>
+                                    <button class="btn btn-danger btn-block py-3" type="submit">Modificar Progreso</button>
                                 </div>
                             </div>
                             <div class="mt-3" id="modificarMessageContainer" style="display: none;">
@@ -228,13 +229,14 @@
         </div>
     </div>
     <!-- Modificar Progreso End -->
+    <hr class="my-5">
 
     <!-- Buscar Progreso Start -->
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-6 mx-auto">
                 <div class="card border-0">
-                    <div class="card-header bg-info text-center p-4">
+                    <div class="card-header bg-danger text-center p-4">
                         <h2 class="text-white m-0">Buscar Registro</h2>
                     </div>
                     <div class="card-body rounded-bottom bg-white p-5">
@@ -243,11 +245,11 @@
                                 <input type="text" class="form-control p-4" id="buscarNombre" name="nombre" placeholder="Nombre completo a buscar" required>
                             </div>
                             <div>
-                                <button class="btn btn-primary btn-block py-3" type="submit">Buscar</button>
+                                <button class="btn btn-danger btn-block py-3" type="submit">Buscar</button>
                             </div>
                         </form>
                         <div class="mt-4" id="resultadoBusqueda" style="display: none;">
-                            <div class="card bg-light">
+                            <div class="card bg-danger bg-opacity-25">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-4 text-center">
@@ -276,19 +278,20 @@
             </div>
         </div>
     </div>
-
+    <!-- Buscar Progreso End -->
+    <hr class="my-5">
 
     <!-- Mostrar Progresos Historial Start -->
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-12 mx-auto">
                 <div class="card border-0">
-                    <div class="card-header bg-info text-center p-4">
+                    <div class="card-header bg-danger text-center p-4">
                         <h2 class="text-white m-0">Historial de Progresos</h2>
                     </div>
                     <div class="card-body rounded-bottom bg-white p-5">
                         <table class="table table-bordered" id="tablaHistorial">
-                            <thead>
+                            <thead class="bg-danger text-white">
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Sexo</th>
@@ -303,7 +306,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Aquí se llenan los datos con JS -->
+
                             </tbody>
                         </table>
                     </div>
@@ -312,7 +315,7 @@
         </div>
     </div>
     <!-- Mostrar Progresos Historial End -->
-
+<hr class="my-5">
     <!-- Borrar Progreso Start -->
     <div class="container py-5">
         <div class="row justify-content-center">
@@ -360,7 +363,7 @@
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-outline-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+    <a href="#" class="btn btn-danger back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
 
     <!-- JavaScript Libraries -->
