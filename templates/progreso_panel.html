@@ -28,12 +28,12 @@
                 <div class="navbar-nav ml-auto p-4 bg-secondary">
                     <a href="index.html" class="nav-item nav-link">Inicio</a>
                     <a href="about.html" class="nav-item nav-link">Acerca de mi</a>
-                    <a href="feature.html" class="nav-item nav-link">Objetivos</a>
+                    <a href="objetivos.html" class="nav-item nav-link">Objetivos</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Fases</a>
                         <div class="dropdown-menu text-capitalize">
-                            <a href="blog.html" class="dropdown-item">Planeacion</a>
-                            <a href="single.html" class="dropdown-item">Diseño</a>
+                            <a href="planeacion.html" class="dropdown-item">Planeacion</a>
+                            <a href="design.html" class="dropdown-item">Diseño</a>
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,6 @@
                                     <option value="Mejorar resistencia">Mejorar resistencia</option>
                                     <option value="Salud general">Salud general</option>
                                     <option value="Competir fisicoculturismo">Competir fisicoculturismo</option>
-
                                 </select>
                             </div>
                             <div class="form-row">
@@ -230,6 +229,55 @@
     </div>
     <!-- Modificar Progreso End -->
 
+    <!-- Buscar Progreso Start -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 mx-auto">
+                <div class="card border-0">
+                    <div class="card-header bg-info text-center p-4">
+                        <h2 class="text-white m-0">Buscar Registro</h2>
+                    </div>
+                    <div class="card-body rounded-bottom bg-white p-5">
+                        <form id="buscarProgresoForm">
+                            <div class="form-group">
+                                <input type="text" class="form-control p-4" id="buscarNombre" name="nombre" placeholder="Nombre completo a buscar" required>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary btn-block py-3" type="submit">Buscar</button>
+                            </div>
+                        </form>
+                        <div class="mt-4" id="resultadoBusqueda" style="display: none;">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4 text-center">
+                                            <img id="buscarImagen" src="" alt="Imagen" style="max-width:120px;max-height:120px;display:none;" class="img-thumbnail mb-3">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item"><strong>Nombre:</strong> <span id="buscarNombreInfo"></span></li>
+                                                <li class="list-group-item"><strong>Sexo:</strong> <span id="buscarSexoInfo"></span></li>
+                                                <li class="list-group-item"><strong>Tiempo Entrenando:</strong> <span id="buscarTiempoEntrenandoInfo"></span></li>
+                                                <li class="list-group-item"><strong>Objetivo:</strong> <span id="buscarObjetivoInfo"></span></li>
+                                                <li class="list-group-item"><strong>Peso:</strong> <span id="buscarPesoInfo"></span></li>
+                                                <li class="list-group-item"><strong>Altura:</strong> <span id="buscarAlturaInfo"></span></li>
+                                                <li class="list-group-item"><strong>Índice Grasa:</strong> <span id="buscarGrasaInfo"></span></li>
+                                                <li class="list-group-item"><strong>Edad:</strong> <span id="buscarEdadInfo"></span></li>
+                                                <li class="list-group-item"><strong>Activo:</strong> <span id="buscarActivoInfo"></span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alert alert-danger mt-3" id="buscarError" style="display:none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Mostrar Progresos Historial Start -->
     <div class="container py-5">
         <div class="row">
@@ -297,9 +345,9 @@
         <div class="row pt-5">
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="text-primary mb-4">Contáctanos</h4>
-                <p><i class="fa fa-map-marker-alt mr-2"></i>123 Calle, Ciudad, País</p>
-                <p><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
-                <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
+                <p><i class="fa fa-map-marker-alt mr-2"></i>Bogotá, Colombia</p>
+                <p><i class="fa fa-phone-alt mr-2"></i>+57 3046347793</p>
+                <p><i class="fa fa-envelope mr-2"></i>kssoto29@ucatolica.edu.co</p>
             </div>
         </div>
         <div class="container border-top border-dark pt-5">
@@ -417,6 +465,55 @@
                 $('#modificarMessageContainer').show();
                 setTimeout(function() { $('#modificarMessageContainer').fadeOut(); }, 5000);
             }
+
+            // Buscar Progreso
+            $('#buscarProgresoForm').submit(function(e) {
+                e.preventDefault();
+                let nombre = $('#buscarNombre').val();
+                if (!nombre) return;
+                $('#buscarError').hide();
+                $.ajax({
+                    url: '/progreso/' + encodeURIComponent(nombre),
+                    type: 'GET',
+                    success: function(data) {
+                        $('#buscarNombreInfo').text(data.nombre);
+                        $('#buscarSexoInfo').text(data.sexo);
+                        $('#buscarTiempoEntrenandoInfo').text(data.tiempo_entrenando);
+                        $('#buscarObjetivoInfo').text(data.objetivo);
+                        $('#buscarPesoInfo').text(data.peso);
+                        $('#buscarAlturaInfo').text(data.altura);
+                        $('#buscarGrasaInfo').text(data.indice_grasa);
+                        $('#buscarEdadInfo').text(data.edad);
+                        $('#buscarActivoInfo').text(data.activo ? 'Sí' : 'No');
+                        if(data.imagen_path){
+                            let path = data.imagen_path.startsWith('/static') ? data.imagen_path : '/static/' + data.imagen_path;
+                            $('#buscarImagen').attr('src', path).show();
+                        } else {
+                            $('#buscarImagen').hide();
+                        }
+                        $('#buscarError').hide();
+                        $('#resultadoBusqueda').show();
+                    },
+                    error: function(xhr) {
+                        $('#resultadoBusqueda').show();
+                        $('#buscarImagen').hide();
+                        $('#buscarNombreInfo').text('');
+                        $('#buscarSexoInfo').text('');
+                        $('#buscarTiempoEntrenandoInfo').text('');
+                        $('#buscarObjetivoInfo').text('');
+                        $('#buscarPesoInfo').text('');
+                        $('#buscarAlturaInfo').text('');
+                        $('#buscarGrasaInfo').text('');
+                        $('#buscarEdadInfo').text('');
+                        $('#buscarActivoInfo').text('');
+                        let errorMessage = 'No se encontró el progreso.';
+                        if (xhr.responseJSON && xhr.responseJSON.detail) {
+                            errorMessage = xhr.responseJSON.detail;
+                        }
+                        $('#buscarError').text(errorMessage).show();
+                    }
+                });
+            });
 
             // Mostrar historial
             function cargarHistorial() {

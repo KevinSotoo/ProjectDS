@@ -28,12 +28,40 @@ async def read_root(request: Request):
     )
 @app.get("/about")
 @app.get("/about.html")
-async def read_root(request: Request):
+async def about_me(request: Request):
     return templates.TemplateResponse(
         name="about.html",
         context={"request": request, "titulo": "¡Bienvenido a mi Proyecto FastAPI!"},
+
     )
 
+
+@app.get("/design")
+@app.get("/design.html")
+async def design (request: Request):
+    return templates.TemplateResponse(
+        name="design.html",
+        context={"request": request, "titulo": "¡Bienvenido a mi Proyecto FastAPI!"},
+
+    )
+
+@app.get("/objetivos")
+@app.get("/objetivos.html")
+async def objetivos(request: Request):
+    return templates.TemplateResponse(
+        name="objetivos.html",
+        context={"request": request, "titulo": "¡Bienvenido a mi Proyecto FastAPI!"},
+
+    )
+
+@app.get("/planeacion")
+@app.get("/planeacion.html")
+async def planeacion(request: Request):
+    return templates.TemplateResponse(
+        name="planeacion.html",
+        context={"request": request, "titulo": "¡Bienvenido a mi Proyecto FastAPI!"},
+
+    )
 
 @app.get("/progreso_panel")
 @app.get("/progreso_panel.html")
@@ -42,7 +70,6 @@ async def get_progreso(request: Request):
         name="progreso_panel.html",
         context={"request": request, "titulo": "Gestión de Progreso del Gimnasio"},
     )
-
 
 @app.get("/abandonos_panel")
 @app.get("/abandonos_panel.html")
@@ -56,6 +83,25 @@ async def get_abandono(request: Request):
 @app.on_event("startup")
 async def startup_event():
     init_db()
+
+@app.get("/sobre_mi")
+def sobre_mi():
+    return {
+        "nombre": "Kevin Soto",
+        "descripcion": "Estudiante de Ingeniería de Sistemas, apasionado por la tecnología y el deporte de gimnasio.",
+        "instagram": "https://www.instagram.com/kevin__ssx/",
+        "github": "https://github.com/KevinSotoo",
+        "contacto": "3046347793"
+    }
+@app.get("/objetivo")
+def objetivo():
+    return {
+        "objetivo": (
+            "Desarrollar una página web que gestione el progreso de los usuarios y las razones de abandono en un gimnasio, "
+            "facilitando el registro, consulta y análisis de datos, con el propósito de motivar a las personas a mantener una vida saludable."
+        )
+    }
+
 
 
 
